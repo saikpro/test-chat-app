@@ -20,3 +20,7 @@ socket.on('disconnect', function(reason) {
 socket.on('newEmail', function(email) {
     console.log('New Email event recieved : ' + email.text);
 });
+
+socket.on('newUserJoined', function(message) {
+    console.log(message.createdAt + ' : ' + message.from + ' - ' + message.text);
+});

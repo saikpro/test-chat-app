@@ -16,18 +16,32 @@ let io = socketIO(server);
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-    console.log('New User Connected');
+    //console.log('New User Connected');
+    socket.emit('newUserJoined', {
+            from : 'Admin',
+            text : 'Hello User',
+            createdAt : new Date().getTime()
+    });
+    socket.broadcast.emit('newUserJoined', {
+        from : 'Admin',
+        text : 'New User Joined',
+        createdAt : new Date().getTime()
+    });
+
+
     socket.on('disconnect', (socket) => {
         console.log('User is disconnected');
     });
     socket.on('createNewEmail', (email) => {
         console.log('Create mail request recieved from client : ' + email.text);;
     });
-    socket.emit('newEmail',
-    {
-            from :'saikat@example.com',
-            text : 'Hey there!!',
-            createdAt : 123
+    socket.on('newEmail', (email) => {
+        socket.broadcast.emit('newEmail',
+        {
+                from : email.from,
+                text : email.text,
+                createdAt : 123
+        });
     });
 });
 

@@ -20,6 +20,15 @@ io.on('connection', (socket) => {
     socket.on('disconnect', (socket) => {
         console.log('User is disconnected');
     });
+    socket.on('createNewEmail', (email) => {
+        console.log('Create mail request recieved from client : ' + email.text);;
+    });
+    socket.emit('newEmail',
+    {
+            from :'saikat@example.com',
+            text : 'Hey there!!',
+            createdAt : 123
+    });
 });
 
 
